@@ -1,4 +1,6 @@
-# steam_regestration_system
+# QR Classroom
+
+an application for registration oriented for the students
 
 A new Flutter project.
 
