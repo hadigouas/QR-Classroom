@@ -33,7 +33,7 @@ class AfterScanning extends StatelessWidget {
       ),
       backgroundColor: mygreen,
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -93,19 +93,6 @@ class AfterScanning extends StatelessWidget {
                         child: Mytext(
                           text: formattedDate,
                           bold: true,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.blue[200],
-                            border: Border.all(color: Colors.black, width: 2),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.arrow_drop_down_outlined),
                         ),
                       ),
                     ),

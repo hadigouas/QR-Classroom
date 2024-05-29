@@ -13,12 +13,10 @@ class UsersAdding extends StatefulWidget {
 }
 
 class _UsersAddingState extends State<UsersAdding> {
-  ////////////////////////////////////////
   Myhive myhive = Myhive(boxname: 'sco');
-////////////////////////////////////////////
   late List<String> studentNames;
-  late TextEditingController mycontroller;
   List<TextEditingController> controllers = [];
+  List<FocusNode> focusNodes = [];
   int myindex = -1;
 
   @override
@@ -26,18 +24,34 @@ class _UsersAddingState extends State<UsersAdding> {
     for (var controller in controllers) {
       controller.dispose();
     }
+    for (var focusNode in focusNodes) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    @override
-    void initState() {
-      super.initState();
-      mycontroller = TextEditingController();
-      controllers.add(mycontroller);
-    }
+  void initState() {
+    super.initState();
+    addNewStudentField();
+  }
 
+  void addNewStudentField() {
+    setState(() {
+      TextEditingController newController = TextEditingController();
+      FocusNode newFocusNode = FocusNode();
+      controllers.add(newController);
+      focusNodes.add(newFocusNode);
+    });
+
+    // Move focus to the new TextField after the current frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(focusNodes.last);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mysecond,
@@ -72,20 +86,18 @@ class _UsersAddingState extends State<UsersAdding> {
                 itemCount: controllers.length,
                 itemBuilder: (context, index) {
                   myindex = index;
-                  // print(myindex);
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: controllers[index],
+                      focusNode: focusNodes[index],
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
                               controllers.removeAt(index);
+                              focusNodes.removeAt(index);
                             });
-                            for (var e in controllers) {
-                              print(e.text);
-                            }
                           },
                           icon: const Icon(Icons.delete),
                           color: Colors.red[300],
@@ -115,13 +127,7 @@ class _UsersAddingState extends State<UsersAdding> {
                           borderRadius: BorderRadius.circular(5)),
                       backgroundColor: mysecond,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        TextEditingController newController =
-                            TextEditingController();
-                        controllers.add(newController);
-                      });
-                    },
+                    onPressed: addNewStudentField,
                     child: const Mytext(
                       text: 'add student',
                       color: Colors.white,
@@ -150,7 +156,6 @@ class _UsersAddingState extends State<UsersAdding> {
                                 .toList();
                             studentNames.removeWhere((name) => name.isEmpty);
 
-                            print(studentNames);
                             myhive.setinthebox(studentNames);
 
                             Navigator.pushReplacement(
@@ -178,6 +183,7 @@ class _UsersAddingState extends State<UsersAdding> {
                           setState(() {
                             myhive.clearbox();
                             controllers.clear();
+                            focusNodes.clear();
                           });
                         },
                         child: const Mytext(

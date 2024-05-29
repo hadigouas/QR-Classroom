@@ -31,7 +31,7 @@ class _PresenceScreenState extends State<PresenceScreen> {
           ),
           backgroundColor: mygreen,
           body: Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 10, right: 10),
+            padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -70,16 +70,30 @@ class _PresenceScreenState extends State<PresenceScreen> {
                     ]);
                   }),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        MyExcel.exportToExcel(
-                            state.addedusers, state.resutllist);
-                      });
-                    },
-                    child: const Mytext(
-                      text: "excel",
-                    )),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        backgroundColor: mysecond,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          MyExcel.exportToExcel(
+                              state.addedusers, state.resutllist);
+                        });
+                      },
+                      child: const Mytext(
+                        text: 'Send to excel',
+                        color: Colors.white,
+                        bold: true,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

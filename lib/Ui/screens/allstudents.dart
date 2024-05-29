@@ -72,13 +72,41 @@ class _AllStudentsState extends State<AllStudents> {
                 return Column(
                   children: [
                     const Divider(),
-                    Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 20,
-                      child: Center(child: Mytext(text: allstudents[index])),
-
-                      // You can add more fields as needed
+                    GestureDetector(
+                      onLongPress: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              color: Colors.white,
+                              child: ListTile(
+                                leading: const Icon(Icons.delete),
+                                title: const Text('Delete'),
+                                onTap: () {
+                                  String studentToRemove = allstudents[index];
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('$studentToRemove deleted')),
+                                  );
+                                  setState(() {
+                                    allstudents.removeAt(index);
+                                    myhive.removeFromBoxAndRefresh(
+                                        allstudents, studentToRemove);
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 20,
+                        child: Center(child: Text(allstudents[index])),
+                      ),
                     ),
                   ],
                 );
