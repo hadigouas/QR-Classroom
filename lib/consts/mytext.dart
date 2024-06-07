@@ -20,7 +20,6 @@ class Mytext extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: GoogleFonts.poppins(
-        
         fontSize: title ? 30 : 20,
         color: color,
         fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
